@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finger Drum Keyboard with Metronome</title>
+    <style>
+        /* 全体の背景とレイアウトのスタイル */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1c1c1c; /* 暗い背景 */
+            color: white; /* テキストを白く */
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* ロゴ風のテキストスタイル */
+        h1 {
+            margin: 20px;
+            font-size: 2rem; /* テキストを大きく */
+            letter-spacing: 0.3rem; /* 文字間を広げる */
+            text-transform: uppercase; /* 大文字に変換 */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* グロー効果 */
+        }
+
+        /* メトロノーム部分のスタイル */
+        .metronome-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+        }
+
+        .metronome-controls input {
+            width: 50px;
+            margin-right: 10px;
+            padding: 5px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .metronome-controls button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #555;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .metronome-controls button:hover {
+            background-color: #666;
+        }
+
+        /* ボタン全体のレイアウトを縦4x横2に変更 */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 180px); /* 2列 */
+            grid-template-rows: repeat(4, 180px); /* 4行 */
+            gap: 10px; /* ボタン間のスペース */
+        }
+
+        /* 各ボタンのスタイル */
+        .drum-button {
+            width: 180px;
+            height: 180px;
+            background-color: #444;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.2s;
+            outline: none;  /* フォーカスの枠を非表示にする */
+        }
+
+        /* ボタンを押したときの効果 */
+        .drum-button:active {
+            background-color: #555;
+        }
+
+        /* ボタンのホバースタイル */
+        .drum-button:hover {
+            background-color: #333;
+        }
+
+        /* スマートフォン向けに全体をセンタリング */
+        @media (max-width: 600px) {
+            .button-grid {
+                grid-template-columns: repeat(3, 125px);
+                grid-template-rows: repeat(4, 125px);
+            }
+            .drum-button {
+                width: 125px;
+                height: 125px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Finger Drum Keyboard</h1>
+
+    <!-- メトロノームのコントロール -->
+    <div class="metronome-controls">
+        <input type="number" id="bpm" value="120" min="40" max="240"> BPM
+        <button id="start-metronome">Start</button>
+        <button id="stop-metronome">Stop</button>
+    </div>
+
+    <!-- 4x2 のボタンを配置 -->
+    <div class="button-grid">
+        <button class="drum-button" data-sound="crash.wav">Crash</button>
+        <button class="drum-button" data-sound="ride.wav">Ride</button>
+        <button class="drum-button" data-sound="tom1.wav">Tom 1</button>
+        <button class="drum-button" data-sound="hihat.wav">Hi-Hat</button>
+        <button class="drum-button" data-sound="hihat_open.wav">Hi-Hat Open</button>
+        <button class="drum-button" data-sound="hihat.wav">Hi-Hat</button>
+        <button class="drum-button" data-sound="snare.wav">Snare</button>
+        <button class="drum-button" data-sound="snare.wav">Snare</button>
+        <button class="drum-button" data-sound="tom2.wav">Tom 2</button>
+        <button class="drum-button" data-sound="kick.wav">Kick</button>
+        <button class="drum-button" data-sound="kick.wav">Kick</button>
+        <button class="drum-button" data-sound="tom3.wav">Tom 3</button>
+    </div>
+
+    <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // 音声ファイルのプレロード
+        const soundBuffers = {};
+
+        // 音声ファイルを事前に読み込む関数
+        async function loadSound(url) {
+            const response = await fetch('sound/' + url);
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            soundBuffers[url] = audioBuffer;
+        }
+
+        // 必要な音声ファイルを事前にロード
+        const soundFiles = ['kick.wav', 'snare.wav', 'hihat.wav', 'hihat_open.wav', 'ride.wav', 'tom1.wav', 'tom2.wav', 'tom3.wav', 'crash.wav'];
+        soundFiles.forEach(sound => loadSound(sound));
+
+        // キーと音声ファイルの対応を辞書（オブジェクト）で定義
+        const sounds = {
+            Space: 'kick.wav',  // スペースキー
+            KeyJ: 'snare.wav',
+            KeyF: 'snare.wav',
+            KeyI: 'hihat.wav',
+            KeyR: 'hihat.wav',
+            KeyU: 'hihat_open.wav',
+            KeyT: 'hihat_open.wav',
+            Digit6: 'crash.wav',
+            Digit7: 'ride.wav',
+            KeyK: 'tom1.wav',
+            KeyM: 'tom2.wav',
+            KeyN: 'tom3.wav',
+        };
+
+        // キーボードイベントをリッスン
+        document.addEventListener('keydown', function(event) {
+            const soundFile = sounds[event.code];
+            playSound(soundFile);
+        });
+
+        // ボタンクリックで音を鳴らす処理
+        const buttons = document.querySelectorAll('.drum-button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                playSound(this.getAttribute('data-sound'));
+            });
+            button.addEventListener('touchstart', function(event) {
+                event.preventDefault();  // フォーカスを防止
+                playSound(this.getAttribute('data-sound'));
+            });
+        });
+
+        // 音声再生の関数を作成
+        function playSound(soundFile) {
+            const buffer = soundBuffers[soundFile];
+            if (buffer) {
+                const source = audioContext.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioContext.destination);
+                source.start(0);  // すぐに再生
+            }
+        }
+
+        // メトロノーム機能
+        let metronomeInterval;
+        const metronomeClick = new Audio('click.wav'); // メトロノーム音 (click.wavを使用)
+        
+        // メトロノームを開始する
+        document.getElementById('start-metronome').addEventListener('click', function() {
+            const bpm = document.getElementById('bpm').value;
+            const interval = (60 / bpm) * 1000; // BPMに基づいてインターバルを計算
+
+            if (metronomeInterval) {
+                clearInterval(metronomeInterval);
+            }
+
+            metronomeClick.play(); // すぐに最初のクリックを再生
+            metronomeInterval = setInterval(() => {
+                metronomeClick.currentTime = 0;
+                metronomeClick.play();
+            }, interval);
+        });
+
+        // メトロノームを停止する
+        document.getElementById('stop-metronome').addEventListener('click', function() {
+            if (metronomeInterval) {
+                clearInterval(metronomeInterval);
+            }
+        });
+    </script>
+</body>
+</html>

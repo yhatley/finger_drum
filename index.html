@@ -104,6 +104,14 @@
                 height: 125px;
             }
         }
+        /* キー説明用のスタイルを設定 */
+        .keyboard-info {
+            text-align: center;        /* 中央揃え */
+            font-size: 0.8rem;         /* 小さめの文字サイズ */
+            color: #888;               /* 灰色で少し目立たないように */
+            margin-top: 20px;          /* 上に余白をつける */
+            padding-bottom: 10px;      /* ページ下部に少し余白 */
+        }
     </style>
 </head>
 <body>
@@ -130,6 +138,12 @@
         <button class="drum-button" data-sound="kick.wav">Kick</button>
         <button class="drum-button" data-sound="kick.wav">Kick</button>
         <button class="drum-button" data-sound="tom3.wav">Tom 3</button>
+    </div>
+
+    <div class="keyboard-info">
+        <p>Keyboard Controls: 
+            Space - Kick, J/F - Snare, I/R - Hi-Hat, U/T - Hi-Hat Open, 6 - Crash, 7 - Ride, K - Tom 1, M - Tom 2, N - Tom 3
+        </p>
     </div>
 
     <script>

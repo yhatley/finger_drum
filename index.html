@@ -126,23 +126,23 @@
 
     <!-- 4x2 のボタンを配置 -->
     <div class="button-grid">
-        <button class="drum-button" data-sound="crash.wav">Crash</button>
-        <button class="drum-button" data-sound="ride.wav">Ride</button>
+        <button class="drum-button" data-sound="tom3.wav">Tom 3</button>
+        <button class="drum-button" data-sound="tom2.wav">Tom 2</button>
         <button class="drum-button" data-sound="tom1.wav">Tom 1</button>
         <button class="drum-button" data-sound="hihat.wav">Hi-Hat</button>
         <button class="drum-button" data-sound="hihat_open.wav">Hi-Hat Open</button>
         <button class="drum-button" data-sound="hihat.wav">Hi-Hat</button>
         <button class="drum-button" data-sound="snare.wav">Snare</button>
         <button class="drum-button" data-sound="snare.wav">Snare</button>
-        <button class="drum-button" data-sound="tom2.wav">Tom 2</button>
+        <button class="drum-button" data-sound="ride.wav">Ride</button>
         <button class="drum-button" data-sound="kick.wav">Kick</button>
         <button class="drum-button" data-sound="kick.wav">Kick</button>
-        <button class="drum-button" data-sound="tom3.wav">Tom 3</button>
+        <button class="drum-button" data-sound="crash.wav">Crash</button>
     </div>
 
     <div class="keyboard-info">
         <p>Keyboard Controls: 
-            Space - Kick, J/F - Snare, I/R - Hi-Hat, U/T - Hi-Hat Open, 6 - Crash, 7 - Ride, K - Tom 1, M - Tom 2, N - Tom 3
+            [Space] - Kick, [J][F] - Snare, [I][R] - Hi-Hat, [U][T] - Hi-Hat Open, [O] - Crash, [K] - Ride, [9][2] - Tom 1, [8][3] - Tom 2, [7][4] - Tom 3
         </p>
     </div>
 
@@ -172,11 +172,14 @@
             KeyR: 'hihat.wav',
             KeyU: 'hihat_open.wav',
             KeyT: 'hihat_open.wav',
-            Digit6: 'crash.wav',
-            Digit7: 'ride.wav',
-            KeyK: 'tom1.wav',
-            KeyM: 'tom2.wav',
-            KeyN: 'tom3.wav',
+            KeyO: 'crash.wav',
+            KeyK: 'ride.wav',
+            Digit9: 'tom1.wav',
+            Digit2: 'tom1.wav',
+            Digit8: 'tom2.wav',
+            Digit3: 'tom2.wav',
+            Digit7: 'tom3.wav',
+            Digit4: 'tom3.wav',
         };
 
         // キーボードイベントをリッスン

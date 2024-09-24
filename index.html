@@ -112,6 +112,16 @@
             margin-top: 20px;          /* 上に余白をつける */
             padding-bottom: 10px;      /* ページ下部に少し余白 */
         }
+        /* ボリュームUIのスタイル */
+        .volume-control {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        #volume-slider {
+            width: 150px; /* スライダーの幅 */
+        }
     </style>
 </head>
 <body>
@@ -122,6 +132,12 @@
         <input type="number" id="bpm" value="120" min="40" max="240"> BPM
         <button id="start-metronome">Start</button>
         <button id="stop-metronome">Stop</button>
+    </div>
+
+    <!-- ボリューム -->
+    <div class="volume-control">
+        <label for="volume-slider">Volume:</label>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
     </div>
 
     <!-- 4x2 のボタンを配置 -->
@@ -148,6 +164,11 @@
 
     <script>
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // GainNode（音量調整用ノード）
+        const gainNode = audioContext.createGain();
+        gainNode.gain.value = 0.5; // 音量を50%に設定 (0.0〜1.0)
+
         // 音声ファイルのプレロード
         const soundBuffers = {};
 
@@ -160,7 +181,7 @@
         }
 
         // 必要な音声ファイルを事前にロード
-        const soundFiles = ['kick.mp3', 'snare.mp3', 'hihat.mp3', 'hihat_open.mp3', 'ride.mp3', 'tom1.mp3', 'tom2.mp3', 'tom3.mp3', 'crash.mp3'];
+        const soundFiles = ['kick.mp3', 'snare.mp3', 'hihat.mp3', 'hihat_open.mp3', 'ride.mp3', 'tom1.mp3', 'tom2.mp3', 'tom3.mp3', 'crash.mp3', 'click.mp3'];
         soundFiles.forEach(sound => loadSound(sound));
 
         // キーと音声ファイルの対応を辞書（オブジェクト）で定義
@@ -206,15 +227,15 @@
             if (buffer) {
                 const source = audioContext.createBufferSource();
                 source.buffer = buffer;
-                source.connect(audioContext.destination);
+                source.connect(gainNode);
+                gainNode.connect(audioContext.destination);
                 source.start(0);  // すぐに再生
             }
         }
 
         // メトロノーム機能
         let metronomeInterval;
-        const metronomeClick = new Audio('sound/click.mp3'); // メトロノーム音 (click.mp3を使用)
-        
+
         // メトロノームを開始する
         document.getElementById('start-metronome').addEventListener('click', function() {
             const bpm = document.getElementById('bpm').value;
@@ -224,10 +245,8 @@
                 clearInterval(metronomeInterval);
             }
 
-            metronomeClick.play(); // すぐに最初のクリックを再生
             metronomeInterval = setInterval(() => {
-                metronomeClick.currentTime = 0;
-                metronomeClick.play();
+                playSound('click.mp3');
             }, interval);
         });
 
@@ -237,6 +256,16 @@
                 clearInterval(metronomeInterval);
             }
         });
-    </script>
+
+        // 音量を調整する関数
+        function setVolume(value) {
+            gainNode.gain.value = value; // 0.0 (無音) 〜 1.0 (最大音量)
+        }
+        // ボリュームスライダーのイベントリスナーを追加
+        const volumeSlider = document.getElementById('volume-slider');
+        volumeSlider.addEventListener('input', function() {
+            setVolume(this.value);
+        });
+</script>
 </body>
 </html>

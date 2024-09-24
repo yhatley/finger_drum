@@ -126,18 +126,18 @@
 
     <!-- 4x2 のボタンを配置 -->
     <div class="button-grid">
-        <button class="drum-button" data-sound="tom3.wav">Tom 3</button>
-        <button class="drum-button" data-sound="tom2.wav">Tom 2</button>
-        <button class="drum-button" data-sound="tom1.wav">Tom 1</button>
-        <button class="drum-button" data-sound="hihat.wav">Hi-Hat</button>
-        <button class="drum-button" data-sound="hihat_open.wav">Hi-Hat Open</button>
-        <button class="drum-button" data-sound="hihat.wav">Hi-Hat</button>
-        <button class="drum-button" data-sound="snare.wav">Snare</button>
-        <button class="drum-button" data-sound="snare.wav">Snare</button>
-        <button class="drum-button" data-sound="ride.wav">Ride</button>
-        <button class="drum-button" data-sound="kick.wav">Kick</button>
-        <button class="drum-button" data-sound="kick.wav">Kick</button>
-        <button class="drum-button" data-sound="crash.wav">Crash</button>
+        <button class="drum-button" data-sound="tom3.mp3">Tom 3</button>
+        <button class="drum-button" data-sound="tom2.mp3">Tom 2</button>
+        <button class="drum-button" data-sound="tom1.mp3">Tom 1</button>
+        <button class="drum-button" data-sound="hihat.mp3">Hi-Hat</button>
+        <button class="drum-button" data-sound="hihat_open.mp3">Hi-Hat Open</button>
+        <button class="drum-button" data-sound="hihat.mp3">Hi-Hat</button>
+        <button class="drum-button" data-sound="snare.mp3">Snare</button>
+        <button class="drum-button" data-sound="snare.mp3">Snare</button>
+        <button class="drum-button" data-sound="ride.mp3">Ride</button>
+        <button class="drum-button" data-sound="kick.mp3">Kick</button>
+        <button class="drum-button" data-sound="kick.mp3">Kick</button>
+        <button class="drum-button" data-sound="crash.mp3">Crash</button>
     </div>
 
     <div class="keyboard-info">
@@ -160,26 +160,26 @@
         }
 
         // 必要な音声ファイルを事前にロード
-        const soundFiles = ['kick.wav', 'snare.wav', 'hihat.wav', 'hihat_open.wav', 'ride.wav', 'tom1.wav', 'tom2.wav', 'tom3.wav', 'crash.wav'];
+        const soundFiles = ['kick.mp3', 'snare.mp3', 'hihat.mp3', 'hihat_open.mp3', 'ride.mp3', 'tom1.mp3', 'tom2.mp3', 'tom3.mp3', 'crash.mp3'];
         soundFiles.forEach(sound => loadSound(sound));
 
         // キーと音声ファイルの対応を辞書（オブジェクト）で定義
         const sounds = {
-            Space: 'kick.wav',  // スペースキー
-            KeyJ: 'snare.wav',
-            KeyF: 'snare.wav',
-            KeyI: 'hihat.wav',
-            KeyR: 'hihat.wav',
-            KeyU: 'hihat_open.wav',
-            KeyT: 'hihat_open.wav',
-            KeyO: 'crash.wav',
-            KeyK: 'ride.wav',
-            Digit9: 'tom1.wav',
-            Digit2: 'tom1.wav',
-            Digit8: 'tom2.wav',
-            Digit3: 'tom2.wav',
-            Digit7: 'tom3.wav',
-            Digit4: 'tom3.wav',
+            Space: 'kick.mp3',  // スペースキー
+            KeyJ: 'snare.mp3',
+            KeyF: 'snare.mp3',
+            KeyI: 'hihat.mp3',
+            KeyR: 'hihat.mp3',
+            KeyU: 'hihat_open.mp3',
+            KeyT: 'hihat_open.mp3',
+            KeyO: 'crash.mp3',
+            KeyK: 'ride.mp3',
+            Digit9: 'tom1.mp3',
+            Digit2: 'tom1.mp3',
+            Digit8: 'tom2.mp3',
+            Digit3: 'tom2.mp3',
+            Digit7: 'tom3.mp3',
+            Digit4: 'tom3.mp3',
         };
 
         // キーボードイベントをリッスン
@@ -213,7 +213,7 @@
 
         // メトロノーム機能
         let metronomeInterval;
-        const metronomeClick = new Audio('sound/click.wav'); // メトロノーム音 (click.wavを使用)
+        const metronomeClick = new Audio('sound/click.mp3'); // メトロノーム音 (click.mp3を使用)
         
         // メトロノームを開始する
         document.getElementById('start-metronome').addEventListener('click', function() {

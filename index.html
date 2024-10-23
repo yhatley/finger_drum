@@ -122,10 +122,77 @@
         #volume-slider {
             width: 150px; /* スライダーの幅 */
         }
+
+        /* 「?」マークのスタイル */
+        .help-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .help-icon:hover {
+            color: #000;
+        }
+
+        /* 説明書ポップアップのスタイル */
+        .help-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f9f9f9; /* 薄い背景色 */
+            color: #333; /* 濃い文字色 */
+            border: 1px solid #333;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .help-popup.hidden {
+            display: none;
+        }
+
+        .help-content {
+            text-align: left;
+        }
+
+        .help-content h2 {
+            margin-top: 0;
+            color: #000;
+        }
+
+        /* 閉じるボタンのスタイル */
+        #close-help {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #close-help:hover {
+            background-color: #333;
+        }
     </style>
 </head>
 <body>
-    <h1>Finger Drum Keyboard</h1>
+    <h1>Finger Drum Keyboard <span class="help-icon">?</span> </h1>
+
+    <!-- 説明書のポップアップ -->
+    <div id="help-popup" class="help-popup hidden">
+        <div class="help-content">
+            <h2>Instruction</h2>
+            <p>ドラム音を指で鳴らす、いわゆるフィンガードラム・指ドラムです</p>
+            <ul>
+                <li>ボタンをタッチ（クリック）すると対応するドラム音が鳴ります。</li>
+                <li>PCのキーボードを押すことでも音を鳴らせます。</li>
+                <li>メトロノーム機能を使って、テンポに合わせて演奏できます。</li>
+                <li>ボタン配置は、ヤマハFGDPやスペカンさんの配置を参考にしています。</li>
+            </ul>
+            <button id="close-help">閉じる</button>
+        </div>
+    </div>
 
     <!-- メトロノームのコントロール -->
     <div class="metronome-controls">
@@ -267,6 +334,15 @@
         const volumeSlider = document.getElementById('volume-slider');
         volumeSlider.addEventListener('input', function() {
             setVolume(this.value);
+        });
+        // 「?」マークをクリックしたときの処理
+        document.querySelector('.help-icon').addEventListener('click', function() {
+            document.getElementById('help-popup').classList.remove('hidden');
+        });
+
+        // 説明ポップアップを閉じる処理
+        document.getElementById('close-help').addEventListener('click', function() {
+            document.getElementById('help-popup').classList.add('hidden');
         });
 </script>
 </body>

@@ -125,13 +125,16 @@
 
         /* 「?」マークのスタイル */
         .help-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             font-size: 24px;
             cursor: pointer;
             color: #666;
         }
 
         .help-icon:hover {
-            color: #000;
+            color: #aaa;
         }
 
         /* 説明書ポップアップのスタイル */
@@ -177,9 +180,10 @@
     </style>
 </head>
 <body>
-    <h1>Finger Drum Keyboard <span class="help-icon">?</span> </h1>
+    <h1>Finger Drum Keyboard</h1>
 
     <!-- 説明書のポップアップ -->
+    <span class="help-icon">?</span>
     <div id="help-popup" class="help-popup hidden">
         <div class="help-content">
             <h2>Instruction</h2>

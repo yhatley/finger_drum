@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finger Drum Keyboard with Metronome</title>
+    <title>Finger Drum Keyboard Simulator</title>
     <style>
         /* 全体の背景とレイアウトのスタイル */
         body {
@@ -21,8 +21,8 @@
 
         /* ロゴ風のテキストスタイル */
         h1 {
-            margin: 20px;
-            font-size: 2rem; /* テキストを大きく */
+            margin: 10px;
+            font-size: 1.5rem; /* テキストを大きく */
             letter-spacing: 0.3rem; /* 文字間を広げる */
             text-transform: uppercase; /* 大文字に変換 */
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* グロー効果 */
@@ -33,9 +33,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 10px;
+            margin: 5px;
         }
-
+        .icon {
+            width: 1.2em; /* 文字サイズに合わせる */
+            height: 1.2em; /* 文字サイズに合わせる */
+            vertical-align: middle; /* テキストとアイコンの垂直位置を揃える */
+        }
         .metronome-controls input {
             width: 50px;
             margin-right: 10px;
@@ -107,14 +111,14 @@
         /* キー説明用のスタイルを設定 */
         .keyboard-info {
             text-align: center;        /* 中央揃え */
-            font-size: 0.8rem;         /* 小さめの文字サイズ */
+            font-size: 0.5rem;         /* 小さめの文字サイズ */
             color: #888;               /* 灰色で少し目立たないように */
             margin-top: 20px;          /* 上に余白をつける */
             padding-bottom: 10px;      /* ページ下部に少し余白 */
         }
         /* ボリュームUIのスタイル */
         .volume-control {
-            text-align: center;
+            /* text-align: center; */
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
@@ -199,17 +203,18 @@
     </div>
 
     <!-- メトロノームのコントロール -->
-    <div class="metronome-controls">
-        <input type="number" id="bpm" value="120" min="40" max="240"> BPM
-        <button id="start-metronome">Start</button>
-        <button id="stop-metronome">Stop</button>
-    </div>
+    <span class="metronome-controls">
+        <img src="metronome.png" alt="アイコン" class="icon"> BPM　
+        <input type="number" id="bpm" value="120" min="40" max="240">
+        <button id="start-metronome">on</button>
+        <button id="stop-metronome">off</button>
+    </span>
 
     <!-- ボリューム -->
-    <div class="volume-control">
+    <span class="volume-control">
         <label for="volume-slider">Volume:</label>
         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
-    </div>
+    </span>
 
     <!-- 4x2 のボタンを配置 -->
     <div class="button-grid">

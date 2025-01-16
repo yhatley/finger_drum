@@ -401,9 +401,8 @@
             }
         });
 
-        // Modify the button click event listeners
         buttons.forEach(button => {
-            button.addEventListener('click', function(event) {
+            const handleInteraction = function(event) {
                 if (configMode) {
                     if (selectedButton === null) {
                         selectedButton = this;
@@ -426,6 +425,13 @@
                 } else {
                     playSound(this.getAttribute('data-sound'));
                 }
+            };
+
+            // Add both click and touchstart events
+            button.addEventListener('click', handleInteraction);
+            button.addEventListener('touchstart', function(event) {
+                event.preventDefault();  // Prevent default touch behavior
+                handleInteraction.call(this, event);
             });
         });
 </script>

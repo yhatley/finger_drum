@@ -127,11 +127,39 @@
             width: 150px; /* スライダーの幅 */
         }
 
-        /* 「?」マークのスタイル */
-        .help-icon {
+
+        .drum-button.config-active {
+            border: 2px solid #f00;
+        }
+
+        /* Update these styles in the <style> section */
+            .top-right-controls {
             position: absolute;
             top: 10px;
             right: 10px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .config-button {
+            padding: 5px 10px;
+            background-color: #444;
+            border: none;
+            border-radius: 5px;
+            color: #666;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .config-button.active {
+            background-color: #666;
+            color: white;
+        }
+
+        /* 「?」マークのスタイル */
+        .help-icon {
             font-size: 24px;
             cursor: pointer;
             color: #666;
@@ -187,7 +215,10 @@
     <h1>Finger Drum Keyboard</h1>
 
     <!-- 説明書のポップアップ -->
-    <span class="help-icon">?</span>
+    <div class="top-right-controls">
+        <button id="config-mode" class="config-button">swap buttons</button>
+        <span class="help-icon">?</span>
+    </div>
     <div id="help-popup" class="help-popup hidden">
         <div class="help-content">
             <h2>Instruction</h2>
@@ -352,6 +383,50 @@
         // 説明ポップアップを閉じる処理
         document.getElementById('close-help').addEventListener('click', function() {
             document.getElementById('help-popup').classList.add('hidden');
+        });
+
+        // Add this before the existing script's closing tag
+        let configMode = false;
+        let selectedButton = null;
+
+        // Config mode toggle
+        document.getElementById('config-mode').addEventListener('click', function() {
+            configMode = !configMode;
+            this.textContent = `swap buttons: ${configMode ? 'On' : 'Off'}`;
+            this.classList.toggle('active');
+            
+            if (!configMode) {
+                selectedButton = null;
+                buttons.forEach(btn => btn.classList.remove('config-active'));
+            }
+        });
+
+        // Modify the button click event listeners
+        buttons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                if (configMode) {
+                    if (selectedButton === null) {
+                        selectedButton = this;
+                        this.classList.add('config-active');
+                    } else {
+                        // Swap the sounds
+                        const tempSound = selectedButton.getAttribute('data-sound');
+                        const tempText = selectedButton.textContent;
+                        
+                        selectedButton.setAttribute('data-sound', this.getAttribute('data-sound'));
+                        selectedButton.textContent = this.textContent;
+                        
+                        this.setAttribute('data-sound', tempSound);
+                        this.textContent = tempText;
+                        
+                        // Reset selection
+                        selectedButton.classList.remove('config-active');
+                        selectedButton = null;
+                    }
+                } else {
+                    playSound(this.getAttribute('data-sound'));
+                }
+            });
         });
 </script>
 </body>

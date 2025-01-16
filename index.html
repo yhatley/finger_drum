@@ -133,7 +133,7 @@
         }
 
         /* Update these styles in the <style> section */
-            .top-right-controls {
+        .top-right-controls {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -143,21 +143,15 @@
             z-index: 1000;
         }
 
-        .config-button {
-            padding: 5px 10px;
-            background-color: #444;
-            border: none;
-            border-radius: 5px;
-            color: #666;
+        .config-icon {
+            font-size: 24px;
             cursor: pointer;
-            font-size: 16px;
+            color: #666;
         }
 
-        .config-button.active {
-            background-color: #666;
-            color: white;
+        .config-icon.active {
+            color: #aaa;
         }
-
         /* 「?」マークのスタイル */
         .help-icon {
             font-size: 24px;
@@ -216,7 +210,7 @@
 
     <!-- 説明書のポップアップ -->
     <div class="top-right-controls">
-        <button id="config-mode" class="config-button">swap buttons</button>
+        <span id="config-mode" class="config-icon">↔</span>
         <span class="help-icon">?</span>
     </div>
     <div id="help-popup" class="help-popup hidden">
@@ -392,7 +386,7 @@
         // Config mode toggle
         document.getElementById('config-mode').addEventListener('click', function() {
             configMode = !configMode;
-            this.textContent = `swap buttons: ${configMode ? 'On' : 'Off'}`;
+            this.textContent = `↔`;
             this.classList.toggle('active');
             
             if (!configMode) {
